@@ -1,5 +1,11 @@
 import { ModuleFederationConfig } from '@nx/module-federation';
 
+const devRemotes =
+  process.env.NX_MF_DEV_REMOTES?.split(',').map((remoteDefinition) => {
+    const [name, url] = remoteDefinition.split('@');
+    return [name, url] as [string, string];
+  });
+
 const config: ModuleFederationConfig = {
   name: 'shell',
   /**
@@ -14,7 +20,7 @@ const config: ModuleFederationConfig = {
    * declare module 'my-external-remote';
    *
    */
-  remotes: ['logisticsObjects', 'pubSub', 'admin'],
+  remotes: devRemotes ?? ['logisticsObjects', 'pubSub', 'admin'],
 };
 
 /**
