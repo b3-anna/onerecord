@@ -1,0 +1,54 @@
+.app-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-left: 1rem;
+}
+
+.logo-text {
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: white;
+}
+
+.spacer {
+    flex: 1 1 auto;
+}
+
+.user-button {
+    .user-name {
+        margin-left: 0.5rem;
+    }
+}
+
+.app-container {
+    height: calc(100vh - 64px);
+}
+
+.app-sidenav {
+    width: 256px;
+}
+
+.main-content {
+    padding: 2rem;
+    background: #fafafa;
+    min-height: 100%;
+}
+
+// Active nav item styling
+a.mat-mdc-list-item.active {
+    background: rgba(var(--mat-toolbar-container-background-color), 0.1);
+    color: var(--mat-toolbar-container-background-color);
+}
+
+// Material overrides for better UX
+.mat-mdc-list-item {
+    border-radius: 0.5rem;
+    margin: 0.25rem 0.5rem;
+}

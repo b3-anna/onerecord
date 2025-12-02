@@ -1,0 +1,47 @@
+@use '@angular/material' as mat;
+
+@include mat.core();
+
+// Define custom theme with Material 3 syntax
+$custom-theme: mat.define-theme((color: (theme-type: light,
+                primary: mat.$violet-palette,
+                tertiary: mat.$magenta-palette,
+            ),
+            typography: (brand-family: 'Inter, sans-serif',
+                plain-family: 'Inter, sans-serif',
+            ),
+            density: (scale: 0,
+            )));
+
+// Include theme styles for core and each component
+:root {
+    @include mat.all-component-themes($custom-theme);
+}
+
+// Custom Material overrides to match our design
+.mat-mdc-button,
+.mat-mdc-raised-button,
+.mat-mdc-fab,
+.mat-mdc-mini-fab {
+    border-radius: 0.75rem !important;
+}
+
+.mat-mdc-card {
+    border-radius: 1rem !important;
+}
+
+.mat-drawer {
+    border-radius: 0 !important;
+}
+
+.mat-toolbar {
+    backdrop-filter: blur(10px);
+}
+
+// Custom primary color override
+:root {
+    --mat-sys-primary: #7c3aed;
+    --mat-sys-on-primary: #ffffff;
+    --mat-sys-primary-container: #ede9fe;
+    --mat-sys-on-primary-container: #4c1d95;
+}

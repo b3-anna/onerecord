@@ -1,0 +1,80 @@
+<mat-toolbar class="app-header" color="primary">
+  <button mat-icon-button (click)="drawer.toggle()" aria-label="Toggle menu">
+    <mat-icon>menu</mat-icon>
+  </button>
+
+  <div class="logo">
+    <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+      <rect width="32" height="32" rx="8" fill="white" />
+      <path d="M16 8L21 16L16 24L11 16L16 8Z" fill="url(#gradient)" />
+      <defs>
+        <linearGradient id="gradient" x1="0" y1="0" x2="32" y2="32">
+          <stop offset="0%" stop-color="#667eea" />
+          <stop offset="100%" stop-color="#764ba2" />
+        </linearGradient>
+      </defs>
+    </svg>
+    <span class="logo-text">ONE Record</span>
+  </div>
+
+  <span class="spacer"></span>
+
+  @if (isAuthenticated) {
+  <button mat-button [matMenuTriggerFor]="userMenu" class="user-button">
+    <mat-icon>account_circle</mat-icon>
+    <span class="user-name">{{ userName }}</span>
+  </button>
+  <mat-menu #userMenu="matMenu">
+    <button mat-menu-item>
+      <mat-icon>person</mat-icon>
+      <span>Profile</span>
+    </button>
+    <button mat-menu-item>
+      <mat-icon>settings</mat-icon>
+      <span>Settings</span>
+    </button>
+    <mat-divider></mat-divider>
+    <button mat-menu-item>
+      <mat-icon>logout</mat-icon>
+      <span>Logout</span>
+    </button>
+  </mat-menu>
+  } @else {
+  <button mat-raised-button color="accent" (click)="login()">
+    <mat-icon>login</mat-icon>
+    Login
+  </button>
+  }
+</mat-toolbar>
+
+<mat-drawer-container class="app-container" autosize>
+  <mat-drawer #drawer class="app-sidenav" mode="side" opened>
+    <mat-nav-list>
+      <a mat-list-item routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+        <mat-icon matListItemIcon>home</mat-icon>
+        <span matListItemTitle>Home</span>
+      </a>
+
+      <a mat-list-item routerLink="/logisticsObjects" routerLinkActive="active">
+        <mat-icon matListItemIcon>inventory_2</mat-icon>
+        <span matListItemTitle>Logistics Objects</span>
+      </a>
+
+      <a mat-list-item routerLink="/pubSub" routerLinkActive="active">
+        <mat-icon matListItemIcon>notifications_active</mat-icon>
+        <span matListItemTitle>Subscriptions</span>
+      </a>
+
+      <mat-divider></mat-divider>
+
+      <a mat-list-item routerLink="/admin" routerLinkActive="active">
+        <mat-icon matListItemIcon>settings</mat-icon>
+        <span matListItemTitle>Admin</span>
+      </a>
+    </mat-nav-list>
+  </mat-drawer>
+
+  <mat-drawer-content class="main-content">
+    <router-outlet></router-outlet>
+  </mat-drawer-content>
+</mat-drawer-container>
