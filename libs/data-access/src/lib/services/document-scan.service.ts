@@ -14,9 +14,9 @@ export interface DocumentScanResult {
   originalCanvas: HTMLCanvasElement;
 }
 
-interface OpenCvWindow extends Window {
+type OpenCvGlobal = typeof globalThis & {
   cv?: any;
-}
+};
 
 /**
  * Utility service for document scanning based on HTML5 media APIs and OpenCV.js.
@@ -35,7 +35,7 @@ export class DocumentScanService {
       return this.cvReady;
     }
 
-    const existing = (globalThis as OpenCvWindow).cv;
+    const existing = (globalThis as OpenCvGlobal).cv;
     if (existing) {
       this.cvReady = Promise.resolve(existing);
       return this.cvReady;
@@ -45,7 +45,7 @@ export class DocumentScanService {
       const script = document.createElement('script');
       script.async = true;
       script.src = scriptUrl;
-      script.onload = () => resolve((globalThis as OpenCvWindow).cv);
+      script.onload = () => resolve((globalThis as OpenCvGlobal).cv);
       script.onerror = (error) => reject(error);
       document.head.appendChild(script);
     });
