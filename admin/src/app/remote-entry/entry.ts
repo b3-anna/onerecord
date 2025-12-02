@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { NxWelcome } from './nx-welcome';
+import { DocumentScanPage } from './document-scan-page.component';
 
 @Component({
-  imports: [NxWelcome],
+  imports: [DocumentScanPage],
   selector: 'app-admin-entry',
-  template: `<app-nx-welcome></app-nx-welcome>`,
+  template: `<app-document-scan-page></app-document-scan-page>`,
 })
 export class RemoteEntry {}
