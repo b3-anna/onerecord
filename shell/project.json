@@ -63,7 +63,7 @@
       "options": {
         "port": 4200,
         "host": "0.0.0.0",
-        "publicHost": "http://0.0.0.0:4200"
+        "publicHost": "http://192.168.178.65:4200"
       },
       "configurations": {
         "production": {
