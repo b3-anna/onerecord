@@ -59,6 +59,14 @@ export class DocumentScanService {
   requestCameraStream(
     constraints: MediaTrackConstraints = { facingMode: 'environment' }
   ): Observable<MediaStream> {
+    if (!globalThis.isSecureContext) {
+      throw new Error('Camera access requires HTTPS or localhost.');
+    }
+
+    if (!navigator.mediaDevices?.getUserMedia) {
+      throw new Error('Camera access is not supported in this browser.');
+    }
+
     return from(
       navigator.mediaDevices.getUserMedia({
         video: constraints,

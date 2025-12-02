@@ -380,6 +380,21 @@ export class DocumentScanPage implements OnDestroy {
   }
 
   private describeError(error: unknown): string {
+    if (error instanceof DOMException) {
+      switch (error.name) {
+        case 'NotAllowedError':
+          return 'Kamerazugriff verweigert. Bitte Berechtigung erteilen und erneut versuchen.';
+        case 'NotFoundError':
+          return 'Keine Kamera gefunden. Bitte ein Kameragerät anschließen oder aktivieren.';
+        case 'NotReadableError':
+          return 'Die Kamera kann nicht verwendet werden. Eventuell wird sie bereits von einer anderen Anwendung genutzt.';
+        case 'SecurityError':
+          return 'Die Kamera kann nur über eine sichere Verbindung (HTTPS oder localhost) gestartet werden.';
+        default:
+          return error.message;
+      }
+    }
+
     if (error instanceof Error) {
       return error.message;
     }
