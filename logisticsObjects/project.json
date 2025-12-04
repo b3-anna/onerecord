@@ -62,8 +62,7 @@
       "executor": "@nx/angular:dev-server",
       "options": {
         "port": 4201,
-        "host": "0.0.0.0",
-        "publicHost": "http://192.168.178.65:4201"
+        "publicHost": "http://localhost:4201"
       },
       "configurations": {
         "production": {

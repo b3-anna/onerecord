@@ -272,6 +272,7 @@ export class DocumentScanPage implements OnDestroy {
     try {
       await this.scanService.loadOpenCv();
 
+      console.info("start camera")
       this.stream = await firstValueFrom(
         this.scanService.requestCameraStream({ facingMode: 'environment' })
       );
