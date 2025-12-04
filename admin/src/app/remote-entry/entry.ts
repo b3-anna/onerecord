@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { DocumentScanPage } from './document-scan-page.component';
+import { DocumentScannerComponent } from './document-scanner.component';
 
 @Component({
-  imports: [DocumentScanPage],
+  imports: [DocumentScannerComponent],
   selector: 'app-admin-entry',
-  template: `<app-document-scan-page></app-document-scan-page>`,
+  template: `<app-document-scanner></app-document-scanner>`,
 })
 export class RemoteEntry {}

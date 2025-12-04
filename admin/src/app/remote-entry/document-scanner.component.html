@@ -1,0 +1,157 @@
+<div class="document-scanner">
+  <!-- Step 1: Capture -->
+  <div class="step-container" *ngIf="currentStep === 'capture'">
+    <div class="step-header">
+      <h2>📸 Step 1: Capture Document</h2>
+      <p>Take a photo of your document</p>
+    </div>
+
+    <div class="preview-area">
+      <video #videoElement autoplay playsinline class="video-preview"></video>
+      <canvas #captureCanvas class="capture-canvas"></canvas>
+
+      <div class="capture-guide">
+        <div class="guide-frame"></div>
+        <p class="guide-text">Position document within frame</p>
+      </div>
+    </div>
+
+    <div class="controls">
+      <button class="btn btn-primary" (click)="startCamera()" [disabled]="isCameraActive">
+        Start Camera
+      </button>
+      <button class="btn btn-success" (click)="captureImage()" [disabled]="!isCameraActive">
+        📸 Capture Photo
+      </button>
+      <button class="btn btn-secondary" (click)="stopCamera()" [disabled]="!isCameraActive">
+        Stop Camera
+      </button>
+    </div>
+  </div>
+
+  <!-- Step 2: Edit & Crop -->
+  <div class="step-container" *ngIf="currentStep === 'edit'">
+    <div class="step-header">
+      <h2>✏️ Step 2: Adjust Document Borders</h2>
+      <p>Adjust corners to crop your document</p>
+    </div>
+
+    <div class="edit-area">
+      <canvas
+        #editCanvas
+        class="edit-canvas"
+        (mousedown)="onCanvasMouseDown($event)"
+        (mousemove)="onCanvasMouseMove($event)"
+        (mouseup)="onCanvasMouseUp()"
+        (mouseleave)="onCanvasMouseUp()">
+      </canvas>
+
+      <div class="edit-info">
+        <p>Click and drag corners to adjust</p>
+        <p>Use arrow keys for fine-tuning</p>
+      </div>
+    </div>
+
+    <div class="controls">
+      <div class="processing-options">
+        <h4>Processing Options:</h4>
+        <div class="option-group">
+          <label>
+            <input type="radio" name="processingMode" [(ngModel)]="processingMode" value="bw">
+            Black & White
+          </label>
+          <label>
+            <input type="radio" name="processingMode" [(ngModel)]="processingMode" value="color">
+            Color
+          </label>
+          <label>
+            <input type="radio" name="processingMode" [(ngModel)]="processingMode" value="enhanced">
+            Enhanced
+          </label>
+        </div>
+
+        <label class="checkbox-label">
+          <input type="checkbox" [(ngModel)]="showGrid">
+          Show grid overlay
+        </label>
+      </div>
+
+      <div class="action-buttons">
+        <button class="btn btn-secondary" (click)="backToCapture()">
+          ← Back
+        </button>
+
+        <button class="btn btn-info" (click)="autoDetectDocument()">
+          🔍 Auto-detect
+        </button>
+
+        <button class="btn btn-success" (click)="processDocument()" [disabled]="isProcessing">
+          {{ isProcessing ? 'Processing...' : 'Weiter →' }}
+        </button>
+      </div>
+
+      <div class="corner-controls">
+        <h4>Corner Adjustment:</h4>
+        <div class="corner-buttons">
+          <button class="btn-sm" *ngFor="let corner of documentCorners; let i = index"
+                  [class.active]="corner.active"
+                  (click)="setActiveCorner(i)">
+            Corner {{ i + 1 }}
+          </button>
+        </div>
+        <p class="help-text">Select a corner, then use arrow keys to adjust</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 3: Sign -->
+  <div class="step-container" *ngIf="currentStep === 'sign'">
+    <div class="step-header">
+      <h2>🖋️ Step 3: Add Signature</h2>
+      <p>Sign your document (optional)</p>
+    </div>
+
+    <div class="sign-area">
+      <div class="document-preview">
+        <!-- Result canvas (hidden but needed for dimensions) -->
+        <canvas #resultCanvas class="result-canvas" style="display: none;"></canvas>
+
+        <!-- Combined preview image -->
+        <img [src]="processedImageData" *ngIf="processedImageData" alt="signatur" class="document-image">
+
+        <!-- Signature canvas overlay -->
+        <canvas #signatureCanvas
+                class="signature-canvas"
+                (mousedown)="startSigning($event)"
+                (mousemove)="drawSignature($event)"
+                (mouseup)="stopSigning()"
+                (mouseleave)="stopSigning()">
+        </canvas>
+      </div>
+
+      <div class="signature-controls">
+        <button class="btn btn-info" (click)="previewCombinedDocument()">
+          👁 Preview
+        </button>
+        <button class="btn btn-warning" (click)="clearSignature()">
+          🗑️ Clear Signature
+        </button>
+        <p class="help-text">Draw your signature in the blue area above</p>
+      </div>
+    </div>
+
+    <div class="controls">
+      <button class="btn btn-secondary" (click)="backToEdit()">
+        ← Back to Edit
+      </button>
+
+      <button class="btn btn-success" (click)="saveFinalDocument()">
+        💾 Save Document
+      </button>
+
+      <button class="btn btn-primary" (click)="resetScanner()">
+        🔄 New Scan
+      </button>
+    </div>
+  </div>
+</div>

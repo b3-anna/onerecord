@@ -31,9 +31,10 @@ export class DocumentScanService {
    * Loads OpenCV.js only once and returns the global cv instance.
    */
   loadOpenCv(scriptUrl = 'https://docs.opencv.org/4.x/opencv.js'): Promise<any> {
-    if (this.cvReady) {
-      return this.cvReady;
-    }
+    console.info("load OpenCS")
+    // if (this.cvReady) {
+    //   return this.cvReady;
+    // }
 
     const existing = (globalThis as OpenCvGlobal).cv;
     if (existing) {
@@ -45,7 +46,6 @@ export class DocumentScanService {
       const script = document.createElement('script');
       script.async = true;
       script.src = scriptUrl;
-      script.onload = () => resolve((globalThis as OpenCvGlobal).cv);
       script.onerror = (error) => reject(error);
       document.head.appendChild(script);
     });
@@ -59,6 +59,7 @@ export class DocumentScanService {
   requestCameraStream(
     constraints: MediaTrackConstraints = { facingMode: 'environment' }
   ): Observable<MediaStream> {
+    console.info("start camera");
     if (!globalThis.isSecureContext) {
       throw new Error('Camera access requires HTTPS or localhost.');
     }
