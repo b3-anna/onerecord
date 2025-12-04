@@ -15,7 +15,8 @@ services:
   dependencies:
     image: node:20
     working_dir: /workspace/onerecord
-    command: npm ci
+    command: >-
+      sh -c "npm ci && npx nx run-many --target=build --configuration=production --parallel=1 --projects=shell,logisticsObjects,pubSub,admin"
     environment:
       - NX_DAEMON=false
       - CHOKIDAR_USEPOLLING=true

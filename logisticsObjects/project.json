@@ -96,19 +96,9 @@
     "serve-static": {
       "continuous": true,
       "executor": "@nx/web:file-server",
-      "defaultConfiguration": "production",
       "options": {
-        "buildTarget": "logisticsObjects:build",
-        "port": 4201,
-        "watch": false
-      },
-      "configurations": {
-        "development": {
-          "buildTarget": "logisticsObjects:build:development"
-        },
-        "production": {
-          "buildTarget": "logisticsObjects:build:production"
-        }
+        "staticFilePath": "dist/logisticsObjects",
+        "port": 4201
       }
     }
   }
