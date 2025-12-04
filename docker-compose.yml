@@ -1,6 +1,17 @@
 version: '3.9'
 
 services:
+  traefik:
+    image: traefik:v2.11
+    command:
+      - --providers.docker=true
+      - --providers.docker.exposedbydefault=false
+      - --entrypoints.web.address=:80
+    ports:
+      - "80:80"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
   dependencies:
     image: node:20
     working_dir: /workspace/onerecord
@@ -21,8 +32,6 @@ services:
         condition: service_completed_successfully
     command: >-
       sh -c "npx nx run shell:serve-static --port 4200 --host 0.0.0.0 --verbose"
-    ports:
-      - '4200:4200'
     environment:
       - NX_DAEMON=false
       - CHOKIDAR_USEPOLLING=true
@@ -30,6 +39,11 @@ services:
     volumes:
       - .:/workspace/onerecord
       - node_modules:/workspace/onerecord/node_modules
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.shell.rule=Host(`shell.localhost`)
+      - traefik.http.routers.shell.entrypoints=web
+      - traefik.http.services.shell.loadbalancer.server.port=4200
 
   logisticsobjects-service:
     image: node:20
@@ -41,8 +55,6 @@ services:
         condition: service_started
     command: >-
       sh -c "npx nx run logisticsObjects:serve-static --port 4201 --host 0.0.0.0 --verbose"
-    ports:
-      - '4201:4201'
     environment:
       - NX_DAEMON=false
       - CHOKIDAR_USEPOLLING=true
@@ -50,6 +62,11 @@ services:
     volumes:
       - .:/workspace/onerecord
       - node_modules:/workspace/onerecord/node_modules
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.logisticsobjects.rule=Host(`logisticsobjects.localhost`)
+      - traefik.http.routers.logisticsobjects.entrypoints=web
+      - traefik.http.services.logisticsobjects.loadbalancer.server.port=4201
 
   pubsub-service:
     image: node:20
@@ -61,8 +78,6 @@ services:
         condition: service_started
     command: >-
       sh -c "npx nx run pubSub:serve-static --port 4202 --host 0.0.0.0 --verbose"
-    ports:
-      - '4202:4202'
     environment:
       - NX_DAEMON=false
       - CHOKIDAR_USEPOLLING=true
@@ -70,6 +85,11 @@ services:
     volumes:
       - .:/workspace/onerecord
       - node_modules:/workspace/onerecord/node_modules
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.pubsub.rule=Host(`pubsub.localhost`)
+      - traefik.http.routers.pubsub.entrypoints=web
+      - traefik.http.services.pubsub.loadbalancer.server.port=4202
 
   admin-service:
     image: node:20
@@ -81,8 +101,6 @@ services:
         condition: service_started
     command: >-
       sh -c "npx nx run admin:serve-static --port 4203 --host 0.0.0.0 --verbose"
-    ports:
-      - '4203:4203'
     environment:
       - NX_DAEMON=false
       - CHOKIDAR_USEPOLLING=true
@@ -90,6 +108,11 @@ services:
     volumes:
       - .:/workspace/onerecord
       - node_modules:/workspace/onerecord/node_modules
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.admin.rule=Host(`admin.localhost`)
+      - traefik.http.routers.admin.entrypoints=web
+      - traefik.http.services.admin.loadbalancer.server.port=4203
 
 volumes:
   node_modules:
