@@ -1,0 +1,95 @@
+version: '3.9'
+
+services:
+  dependencies:
+    image: node:20
+    working_dir: /workspace/onerecord
+    command: npm ci
+    environment:
+      - NX_DAEMON=false
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true
+    volumes:
+      - .:/workspace/onerecord
+      - node_modules:/workspace/onerecord/node_modules
+
+  shell-service:
+    image: node:20
+    working_dir: /workspace/onerecord
+    depends_on:
+      dependencies:
+        condition: service_completed_successfully
+    command: >-
+      sh -c "npx nx serve shell --host 0.0.0.0 --port 4200 --public-host http://localhost:4200"
+    ports:
+      - '4200:4200'
+    environment:
+      - NX_DAEMON=false
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true
+    volumes:
+      - .:/workspace/onerecord
+      - node_modules:/workspace/onerecord/node_modules
+
+  logisticsobjects-service:
+    image: node:20
+    working_dir: /workspace/onerecord
+    depends_on:
+      dependencies:
+        condition: service_completed_successfully
+      shell-service:
+        condition: service_started
+    command: >-
+      sh -c "npx nx serve logisticsObjects --host 0.0.0.0 --port 4201 --public-host http://localhost:4201"
+    ports:
+      - '4201:4201'
+    environment:
+      - NX_DAEMON=false
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true
+    volumes:
+      - .:/workspace/onerecord
+      - node_modules:/workspace/onerecord/node_modules
+
+  pubsub-service:
+    image: node:20
+    working_dir: /workspace/onerecord
+    depends_on:
+      dependencies:
+        condition: service_completed_successfully
+      shell-service:
+        condition: service_started
+    command: >-
+      sh -c "npx nx serve pubSub --host 0.0.0.0 --port 4202 --public-host http://localhost:4202"
+    ports:
+      - '4202:4202'
+    environment:
+      - NX_DAEMON=false
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true
+    volumes:
+      - .:/workspace/onerecord
+      - node_modules:/workspace/onerecord/node_modules
+
+  admin-service:
+    image: node:20
+    working_dir: /workspace/onerecord
+    depends_on:
+      dependencies:
+        condition: service_completed_successfully
+      shell-service:
+        condition: service_started
+    command: >-
+      sh -c "npx nx serve admin --host 0.0.0.0 --port 4203 --public-host http://localhost:4203"
+    ports:
+      - '4203:4203'
+    environment:
+      - NX_DAEMON=false
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true
+    volumes:
+      - .:/workspace/onerecord
+      - node_modules:/workspace/onerecord/node_modules
+
+volumes:
+  node_modules:
