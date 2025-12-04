@@ -8,6 +8,7 @@
   "targets": {
     "build": {
       "executor": "@nx/angular:webpack-browser",
+      "dependsOn": [],
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/admin",
@@ -95,19 +96,9 @@
     "serve-static": {
       "continuous": true,
       "executor": "@nx/web:file-server",
-      "defaultConfiguration": "production",
       "options": {
-        "buildTarget": "admin:build",
-        "port": 4203,
-        "watch": false
-      },
-      "configurations": {
-        "development": {
-          "buildTarget": "admin:build:development"
-        },
-        "production": {
-          "buildTarget": "admin:build:production"
-        }
+        "staticFilePath": "dist/admin",
+        "port": 4203
       }
     }
   }

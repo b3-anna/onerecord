@@ -8,6 +8,7 @@
   "targets": {
     "build": {
       "executor": "@nx/angular:webpack-browser",
+      "dependsOn": [],
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/pubSub",
@@ -95,19 +96,9 @@
     "serve-static": {
       "continuous": true,
       "executor": "@nx/web:file-server",
-      "defaultConfiguration": "production",
       "options": {
-        "buildTarget": "pubSub:build",
-        "port": 4202,
-        "watch": false
-      },
-      "configurations": {
-        "development": {
-          "buildTarget": "pubSub:build:development"
-        },
-        "production": {
-          "buildTarget": "pubSub:build:production"
-        }
+        "staticFilePath": "dist/pubSub",
+        "port": 4202
       }
     }
   }
