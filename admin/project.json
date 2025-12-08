@@ -7,63 +7,29 @@
   "tags": [],
   "targets": {
     "build": {
-      "executor": "@nx/angular:webpack-browser",
-      "dependsOn": [],
+      "executor": "@nx/vite:build",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/admin",
-        "index": "admin/src/index.html",
-        "main": "admin/src/main.ts",
-        "polyfills": ["zone.js"],
-        "tsConfig": "admin/tsconfig.app.json",
-        "inlineStyleLanguage": "scss",
-        "assets": [
-          {
-            "glob": "**/*",
-            "input": "admin/public"
-          }
-        ],
-        "styles": ["admin/src/styles.scss"],
-        "customWebpackConfig": {
-          "path": "admin/webpack.config.ts"
-        }
+        "configFile": "admin/vite.config.ts"
       },
       "configurations": {
         "production": {
-          "budgets": [
-            {
-              "type": "initial",
-              "maximumWarning": "500kb",
-              "maximumError": "1mb"
-            },
-            {
-              "type": "anyComponentStyle",
-              "maximumWarning": "4kb",
-              "maximumError": "8kb"
-            }
-          ],
-          "outputHashing": "all",
-          "customWebpackConfig": {
-            "path": "admin/webpack.prod.config.ts"
-          }
+          "mode": "production"
         },
         "development": {
-          "buildOptimizer": false,
-          "optimization": false,
-          "vendorChunk": true,
-          "extractLicenses": false,
-          "sourceMap": true,
-          "namedChunks": true
+          "mode": "development"
         }
       },
       "defaultConfiguration": "production"
     },
     "serve": {
       "continuous": true,
-      "executor": "@nx/angular:dev-server",
+      "executor": "@nx/vite:dev-server",
       "options": {
         "port": 4203,
-        "publicHost": "http://localhost:4203"
+        "publicHost": "http://localhost:4203",
+        "configFile": "admin/vite.config.ts"
       },
       "configurations": {
         "production": {

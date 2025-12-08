@@ -1,6 +1,4 @@
-import { ModuleFederationConfig } from '@nx/module-federation';
-
-const config: ModuleFederationConfig = {
+const config = {
   name: 'logisticsObjects',
   exposes: {
     './Routes': 'logisticsObjects/src/app/remote-entry/entry.routes.ts',
