@@ -1,6 +1,4 @@
-import { ModuleFederationConfig } from '@nx/module-federation';
-
-const config: ModuleFederationConfig = {
+const config = {
   name: 'pubSub',
   exposes: {
     './Routes': 'pubSub/src/app/remote-entry/entry.routes.ts',

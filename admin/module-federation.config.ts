@@ -1,6 +1,4 @@
-import { ModuleFederationConfig } from '@nx/module-federation';
-
-const config: ModuleFederationConfig = {
+const config = {
   name: 'admin',
   exposes: {
     './Routes': 'admin/src/app/remote-entry/entry.routes.ts',

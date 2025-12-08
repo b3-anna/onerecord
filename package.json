@@ -12,13 +12,16 @@
     "@angular/compiler-cli": "~20.3.0",
     "@angular/language-service": "~20.3.0",
     "@angular/pwa": "^20.3.12",
+    "@analogjs/vite-plugin-angular": "^1.11.0",
     "@eslint/js": "^9.8.0",
     "@module-federation/enhanced": "^0.21.2",
+    "@module-federation/vite": "^0.21.2",
     "@nx/cypress": "22.1.3",
     "@nx/eslint": "22.1.3",
     "@nx/eslint-plugin": "22.1.3",
     "@nx/jest": "22.1.3",
     "@nx/js": "22.1.3",
+    "@nx/vite": "22.1.3",
     "@nx/module-federation": "22.1.3",
     "@nx/web": "22.1.3",
     "@nx/webpack": "22.1.3",
@@ -46,7 +49,8 @@
     "ts-node": "10.9.1",
     "tslib": "^2.3.0",
     "typescript": "~5.9.2",
-    "typescript-eslint": "^8.40.0"
+    "typescript-eslint": "^8.40.0",
+    "vite": "^5.4.10"
   },
   "dependencies": {
     "@angular/animations": "^20.3.15",
